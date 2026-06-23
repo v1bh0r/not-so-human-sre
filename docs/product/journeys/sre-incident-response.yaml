@@ -1,0 +1,62 @@
+persona: On-call SRE at a mid-to-large technology company, holding the pager during nights and weekends, responsible for diagnosing and mitigating production incidents under time pressure.
+opportunity: SREs lose 10–30 minutes per incident manually correlating logs, metrics, and traces before forming their first diagnostic hypothesis — time that could be eliminated by an AI agent that assembles the causal chain autonomously and presents ranked, evidence-backed hypotheses the moment the page fires.
+jobs:
+  - id: F-01
+    description: Minimize time to correlate logs, metrics, and traces into a single causal chain during an active incident
+    type: functional
+
+  - id: F-02
+    description: Minimize time to locate and surface the correct, current runbook step applicable to the present failure mode
+    type: functional
+
+  - id: F-03
+    description: Minimize false positive alert noise by identifying the actionable causal subset from the full alert storm
+    type: functional
+
+  - id: F-04
+    description: Minimize time to form the first plausible diagnostic hypothesis so mitigation work can begin
+    type: functional
+
+  - id: F-05
+    description: Minimize effort required to reconstruct an accurate incident timeline for post-mortem analysis
+    type: functional
+
+  - id: F-06
+    description: Minimize time to determine the correct escalation target when the incident exceeds current on-call scope
+    type: functional
+
+  - id: F-07
+    description: Minimize cognitive load of tracking multiple parallel investigation threads during high-severity incidents
+    type: functional
+
+  - id: F-08
+    description: Minimize likelihood of executing a runbook step that is no longer valid due to system or tooling changes
+    type: functional
+
+  - id: E-01
+    description: Feel confident that no obvious signal has been missed before escalating or taking a mitigation action
+    type: emotional
+
+  - id: E-02
+    description: Feel in control of the incident even during the chaotic, ambiguous early phase before root cause is known
+    type: emotional
+
+  - id: E-03
+    description: Feel protected from blame if something goes wrong when following an AI-generated recommendation, because the reasoning is transparent and auditable
+    type: emotional
+
+  - id: E-04
+    description: Feel like a skilled practitioner augmented by the tool, not replaced or deskilled by it
+    type: emotional
+
+  - id: S-01
+    description: Communicate credible and accurate status updates to stakeholders and incident commanders without interrupting active investigation
+    type: social
+
+  - id: S-02
+    description: Be recognized by peers and management as the person who ran a clean, fast, well-documented incident
+    type: social
+
+  - id: S-03
+    description: Demonstrate measurable, team-wide improvement in incident response metrics to engineering leadership
+    type: social

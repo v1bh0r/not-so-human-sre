@@ -1,0 +1,330 @@
+# Product Jobs SSOT
+# Source: nw-diverger DIVERGE wave — sre-agent-mttr-optimizer
+# Date: 2026-06-23
+# Format: ODI (Outcome-Driven Innovation) — Ulwick / JTBD Theory
+
+---
+
+meta:
+  product: not-so-human-sre
+  last_updated: 2026-06-23
+  wave: DIVERGE
+  feature_origin: sre-agent-mttr-optimizer
+  methodology: JTBD + ODI (Outcome-Driven Innovation, Tony Ulwick)
+
+---
+
+# PRIMARY JOB
+
+primary_job:
+  id: J-PRIMARY
+  level: strategic
+  statement: >
+    When a production alert fires during an active incident, I want to immediately understand
+    what is failing, where it is failing, and why it is failing, so I can begin targeted
+    mitigation instead of investigation.
+  abstraction_level: strategic
+  validated_by: DISCOVER wave — 10/10 interviews confirmed; 8/10 resonated with ghost-in-the-chair framing
+  disruption_risk: LOW at 3-year horizon (full autonomous remediation is not trusted; see INV-02)
+
+---
+
+# JOB TYPES
+
+functional_jobs:
+  - id: F-01
+    description: >
+      Minimize time to correlate logs, metrics, and traces into a single causal chain
+      during an active incident
+    importance: 9.5
+    satisfaction: 3.0
+    opportunity_score: 15.5
+    status: under_served
+    odi_ref: ODI-01
+
+  - id: F-02
+    description: >
+      Minimize time to locate and surface the correct, current runbook step applicable
+      to the present failure mode
+    importance: 8.5
+    satisfaction: 4.0
+    opportunity_score: 12.5
+    status: under_served
+
+  - id: F-03
+    description: >
+      Minimize false positive alert noise by identifying the actionable causal subset
+      from the full alert storm
+    importance: 9.0
+    satisfaction: 3.5
+    opportunity_score: 14.5
+    status: under_served
+    odi_ref: ODI-04
+
+  - id: F-04
+    description: >
+      Minimize time to form the first plausible diagnostic hypothesis so mitigation
+      work can begin
+    importance: 9.0
+    satisfaction: 4.0
+    opportunity_score: 14.0
+    status: under_served
+    odi_ref: ODI-01
+
+  - id: F-05
+    description: >
+      Minimize effort required to reconstruct an accurate incident timeline for
+      post-mortem analysis
+    importance: 7.5
+    satisfaction: 2.5
+    opportunity_score: 12.5
+    status: under_served
+    priority: v2  # secondary to live-incident core per DISCOVER C-06
+
+  - id: F-06
+    description: >
+      Minimize time to determine the correct escalation target when the incident
+      exceeds current on-call scope
+    importance: 7.0
+    satisfaction: 4.0
+    opportunity_score: 10.0
+    status: appropriately_served
+
+  - id: F-07
+    description: >
+      Minimize cognitive load of tracking multiple parallel investigation threads
+      during high-severity incidents
+    importance: 8.0
+    satisfaction: 3.0
+    opportunity_score: 13.0
+    status: under_served
+    odi_ref: ODI-03
+
+  - id: F-08
+    description: >
+      Minimize likelihood of executing a runbook step that is no longer valid due
+      to system or tooling changes
+    importance: 8.5
+    satisfaction: 3.0
+    opportunity_score: 14.0
+    status: under_served
+    odi_ref: ODI-06
+
+emotional_jobs:
+  - id: E-01
+    description: >
+      Feel confident that no obvious signal has been missed before escalating or
+      taking a mitigation action
+    resonance: HIGH  # directly addressed by explainability constraint C-04
+
+  - id: E-02
+    description: >
+      Feel in control of the incident even during the chaotic, ambiguous early phase
+      before root cause is known
+    resonance: HIGH  # ghost-in-the-chair pattern addresses this directly
+
+  - id: E-03
+    description: >
+      Feel protected from blame if something goes wrong when following an AI-generated
+      recommendation, because the reasoning is transparent and auditable
+    resonance: HIGH  # explainability + audit trail directly addresses this
+
+  - id: E-04
+    description: >
+      Feel like a skilled practitioner augmented by the tool, not replaced or deskilled by it
+    resonance: MEDIUM  # "ghost in the chair" framing explicitly positions AI as assistant not replacement
+
+social_jobs:
+  - id: S-01
+    description: >
+      Communicate credible and accurate status updates to stakeholders and incident commanders
+      without interrupting active investigation
+    resonance: HIGH  # addressed by OPT-4 (Multi-Persona Hub) as optional extension
+
+  - id: S-02
+    description: >
+      Be recognized by peers and management as the person who ran a clean, fast,
+      well-documented incident
+    resonance: MEDIUM
+
+  - id: S-03
+    description: >
+      Demonstrate measurable, team-wide improvement in incident response metrics to
+      engineering leadership
+    resonance: MEDIUM
+
+---
+
+# ODI OUTCOME STATEMENTS
+
+# Format: Direction + Metric + Object + Context
+# Scoring: Importance + Max(0, Importance - Satisfaction)
+# Under-served threshold: score > 12
+
+odi_outcomes:
+
+  - id: ODI-01
+    statement: >
+      Minimize the time it takes to form a first plausible diagnostic hypothesis
+      after a production alert fires
+    importance: 9.5
+    satisfaction: 3.0
+    opportunity_score: 16.0
+    status: severely_under_served
+    maps_to_jobs: [F-01, F-04]
+    maps_to_opportunities: [OPP-01, OPP-03]
+    priority: 1
+
+  - id: ODI-02
+    statement: >
+      Minimize the likelihood of acting on a mitigation strategy that is based on
+      an incorrect or incomplete signal interpretation
+    importance: 9.0
+    satisfaction: 4.0
+    opportunity_score: 14.0
+    status: under_served
+    maps_to_jobs: [F-04]
+    maps_to_constraints: [C-04]
+    priority: 2
+
+  - id: ODI-03
+    statement: >
+      Minimize the number of monitoring tools and tabs an SRE must actively query
+      to construct a complete picture of an incident
+    importance: 8.5
+    satisfaction: 2.5
+    opportunity_score: 14.5
+    status: under_served
+    maps_to_jobs: [F-01, F-07]
+    maps_to_opportunities: [OPP-01]
+    priority: 2
+
+  - id: ODI-04
+    statement: >
+      Minimize the likelihood of the on-call SRE missing a causal alert signal
+      because it is buried in alert storm noise
+    importance: 9.0
+    satisfaction: 3.5
+    opportunity_score: 14.5
+    status: under_served
+    maps_to_jobs: [F-03]
+    maps_to_opportunities: [OPP-02]
+    priority: 2
+
+  - id: ODI-05
+    statement: >
+      Minimize the effort required to communicate a coherent incident status to
+      stakeholders and incident commanders without interrupting the active investigation
+    importance: 8.0
+    satisfaction: 3.0
+    opportunity_score: 13.0
+    status: under_served
+    maps_to_jobs: [S-01]
+    priority: 3
+
+  - id: ODI-06
+    statement: >
+      Minimize the time it takes to validate that a candidate runbook step is
+      applicable to the current system state before executing it
+    importance: 8.5
+    satisfaction: 3.0
+    opportunity_score: 14.0
+    status: under_served
+    maps_to_jobs: [F-08]
+    maps_to_opportunities: [OPP-04]
+    maps_to_constraints: [C-03]
+    priority: 2
+
+---
+
+# PERSONAS (JTBD SEGMENTATION)
+
+personas:
+  - id: P-01
+    name: The Paged-At-3am SRE
+    primary: true
+    jtbd_segment: On-call SRE during live incident — minimize time from alert to actionable hypothesis
+    org_size_range: 50–5000 engineers
+    emotional_state: High anxiety, decision paralysis, imposter syndrome, relief when pattern matches
+    stack_profile: OTel-instrumented (traces 9/10, metrics 8/10, logs 7/10)
+    primary_jobs: [F-01, F-03, F-04, E-01, E-02, E-03]
+
+  - id: P-02
+    name: The Incident Commander
+    primary: false
+    priority: v1_secondary
+    jtbd_segment: Coordinate multi-team P0 response — maintain shared mental model of incident state
+    primary_jobs: [S-01, F-07]
+    notes: Addressed by OPT-4 (Multi-Persona Hub) as an optional extension to the primary SRE brief
+
+  - id: P-03
+    name: The Post-Mortem Analyst
+    primary: false
+    priority: v2
+    jtbd_segment: Reconstruct accurate incident timelines and identify repeating failure patterns
+    primary_jobs: [F-05]
+    notes: Addressed by OPT-2 (Continuous Incident Scribe) as a v2 feature direction per DISCOVER C-06
+
+---
+
+# CONSTRAINTS
+
+constraints:
+  - id: C-01
+    statement: Autonomous execution must be opt-in, reversible, and audit-logged
+    source: DISCOVER trust evidence (A-06, I-02, I-06)
+    impact: Architecture must include action log and rollback mechanism; recommendation mode is default
+
+  - id: C-02
+    statement: Agent must degrade gracefully on incomplete OTel instrumentation
+    source: DISCOVER signal gap finding (A-08, I-01)
+    impact: No assumption of 100% trace coverage; "signal gap detected" is an explicit output state
+
+  - id: C-03
+    statement: Runbooks cannot be treated as executable ground truth
+    source: DISCOVER runbook maturity evidence (A-03, REF-006)
+    impact: Each runbook step must be validated against current system state; runbooks are heuristic guidance
+
+  - id: C-04
+    statement: Agent output must be explainable at the hypothesis level
+    source: DISCOVER trust evidence (I-02: "If it can't show me why, I don't trust it")
+    impact: Every hypothesis must cite the specific signals that support it
+
+  - id: C-05
+    statement: Filesystem runbook format must support Markdown (Git-resident) as primary format
+    source: DISCOVER REF-006 — 6/10 orgs use Markdown-in-Git
+    impact: Parser must handle Markdown; secondary formats (Confluence export) are v2
+
+  - id: C-06
+    statement: Primary persona is on-call SRE during live incident, not post-mortem analyst
+    source: DISCOVER opportunity scoring (F-01 through F-04 outscored F-05)
+    impact: Post-mortem automation is deprioritized until live-incident core is validated
+
+---
+
+# RECOMMENDED DESIGN DIRECTION (DIVERGE WAVE OUTPUT)
+
+design_direction:
+  recommended_option: OPT-1
+  name: The Incident Brief
+  score: 4.58
+  decision: >
+    Proceed with OPT-1 (The Incident Brief) as the primary design direction.
+    Architecture note: OPT-5's retrieval-first mechanism (runbook + post-mortem
+    semantic matching) should be incorporated as an internal implementation optimization
+    within OPT-1's push-and-read UX model — not as a separate user-facing design.
+  key_assumptions_to_validate:
+    - LLM reasoning quality over OTel signals is sufficient to produce hypotheses
+      more accurate than an experienced SRE acting alone in the same time window (P-01 spike)
+    - 60-second delivery target from alert fire to Slack brief is achievable with
+      Mastra + LLM APIs under typical OTel signal volumes (P-01 spike)
+    - 3-part brief format is comprehensible under high-stress incident conditions (P-03 usability test)
+    - SaaS deployment is acceptable to initial customer segment (regulated-industry customers are V2)
+  dissenting_option: OPT-5
+  dissenting_score: 4.25
+  reference_artifacts:
+    - docs/feature/sre-agent-mttr-optimizer/recommendation.md
+    - docs/feature/sre-agent-mttr-optimizer/diverge/taste-evaluation.md
+    - docs/feature/sre-agent-mttr-optimizer/diverge/options-raw.md
+    - docs/feature/sre-agent-mttr-optimizer/diverge/competitive-research.md
+    - docs/feature/sre-agent-mttr-optimizer/diverge/job-analysis.md
